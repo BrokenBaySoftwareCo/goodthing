@@ -1,0 +1,19 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:node/recommended",
+    "standard"
+  ],
+  "plugins": [
+    "node",
+    "import",
+    "promise"
+  ],
+  "rules": {
+    "no-console": "off",
+    "node/no-unsupported-features": "off"
+  },
+  "parserOptions": {
+    "sourceType": "module"
+  }
+}

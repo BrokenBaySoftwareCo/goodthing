@@ -97,7 +97,49 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
+/*
+ * This will need to be set dynamically
+ * based on a config setting or on the
+ * width of the image read from the file
+ * with node
+ */
 
+img {
+  max-width: 400px;
+}
+
+#scrolling-container {
+  width: 100vw;
+  height: 100vh;
+  overflow: scroll;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 100vw;
+  grid-template-rows: 100vh;
+  grid-auto-columns: 100vw;
+  grid-auto-flow: column;
+  /* grid-column-gap: 10px; */
+}
+
+.grid-container div {
+  display: flex;
+  /* justify-content: center; */
+  width: calc(100%-20px);
+  height: calc(100%-20px);
+  padding: 10px;
+}
+
+.grid-container img {
+  width: 100%;
+  max-width: 400px;
+  margin: auto;
+}
+
+.hide {
+  display: none !important;
+}
 
 
 

@@ -1,3 +1,4 @@
 .esm-cache
 .eslintcache
 node_modules
+.DS_Store

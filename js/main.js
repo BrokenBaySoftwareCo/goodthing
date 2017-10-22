@@ -1,6 +1,6 @@
 // The initial stream of scroll events
 const scrollingContainer = document.getElementById('scrolling-container')
-const scrollStream$ = Rx.Observable.fromEvent(scrollingContainer, 'scroll') // eslint-disable-line
+const scrollStream$ = Rx.Observable.fromEvent(scrollingContainer, 'scroll') // eslint-disable-line no-undef
 // Hide the gridCells after the first two
 const gridCells = document.getElementsByClassName('grid-image-div')
 Array.prototype.forEach.call(gridCells, (gridCell, index) => {
@@ -8,8 +8,6 @@ Array.prototype.forEach.call(gridCells, (gridCell, index) => {
     gridCell.classList.add('hide')
   }
 })
-// An array for keeping track of the
-// visible cells
 const currentCell = { index: 0 }
 console.log('currentCell.index', currentCell.index)
 // The filtered stream of just completed
@@ -18,37 +16,90 @@ const userScrolledNext$ = scrollStream$
   .map(e => e.target.scrollLeft)
   .pairwise()
   .filter(leftPositions => {
-    return isScrollNextComplete(leftPositions[0])
+    return isScrollingNextward(
+      leftPositions
+    )
   })
-// The filtered stream of just completed
-// scroll previous events
-const userScrolledPrevious$ = scrollStream$
-  .map(e => e.target.scrollLeft)
-  .pairwise()
   .filter(leftPositions => {
-    return isScrollPreviousComplete(leftPositions[0])
+    return thisIsNotTheEnd(
+      currentCell,
+      gridCells
+    )
   })
+  .filter(leftPositions => {
+    return isScrollNextComplete(
+      currentCell,
+      gridCells,
+      leftPositions
+    )
+  })
+
 /**
  Subscribe and apply effects
 **/
-userScrolledNext$.subscribe(() => { showNextFrame(currentCell, gridCells) })
-userScrolledPrevious$.subscribe(() => { showPreviousFrame(currentCell, gridCells) })
+userScrolledNext$.subscribe((leftPositions) => {
+  scrollStream$
+    .takeUntil(Rx.Observable.timer(1000)) // eslint-disable-line no-undef
+    .map(e => e.target.scrollLeft)
+    .subscribe(() => {
+      scrollingContainer.scrollLeft = leftPositions[1]
+    })
 
-const isScrollPreviousComplete = (leftPosition) => {
-  if (leftPosition <= 2) {
-    // console.log('document.body.offsetWidth - 2', document.body.offsetWidth - 2)
-    // console.log('leftPosition', leftPosition)
-    console.log("you're at the back edge of the page")
+  setTimeout(
+    () => {
+      showNextFrame(currentCell, gridCells)
+    },
+    750
+  )
+})
+
+function isScrollingNextward (
+  leftPositions /* : Array<number> */
+) {
+  console.log('leftPositions[0]', leftPositions[0])
+  console.log('leftPositions[1]', leftPositions[1])
+  if (leftPositions[1] > leftPositions[0]) {
+    console.log("You're moving nextward")
     return true
   }
   // return leftPosition >= window.innerWidth
   return false
 }
-const isScrollNextComplete = (leftPosition) => {
-  if (leftPosition >= document.body.offsetWidth - 2) {
-    // console.log('document.body.offsetWidth - 2', document.body.offsetWidth - 2)
-    // console.log('leftPosition', leftPosition)
-    console.log("you're at the front edge of the page")
+
+function thisIsNotTheEnd (
+  currentCell/* : number */,
+  gridCells /* : Array<HTMLCollection> */
+) {
+  console.log('currentCell.index', currentCell.index)
+  console.log('gridCells.length - 1', gridCells.length - 1)
+  if (
+    currentCell.index < gridCells.length - 1
+  ) {
+    console.log('This is not the end')
+    return true
+  }
+  // return leftPosition >= window.innerWidth
+  return false
+}
+
+function isScrollNextComplete (
+  currentCell/* : number */,
+  gridCells /* : Array<HTMLCollection> */,
+  leftPositions
+) {
+  if (
+    (
+      currentCell.index === 0 &&
+      leftPositions[1] >= document.body.offsetWidth - 1
+    ) ||
+    (
+      currentCell.index > 0 &&
+      leftPositions[1] >= 2 * document.body.offsetWidth - 1
+    )
+  ) {
+    console.log('-----------------------------------------')
+    console.log("You're at the front edge of the page")
+    console.log('-----------------------------------------')
     return true
   }
   // return leftPosition >= window.innerWidth
@@ -75,25 +126,10 @@ function showNextFrame (
   currentCell/* : number */,
   gridCells /* : Array<HTMLCollection> */
 ) {
-  if (currentCell.index < gridCells.length - 1) {
-    ++currentCell.index
-    console.log('currentCellIndex', currentCell.index)
-    hideGridCell(gridCells[currentCell.index - 2])
-    showGridCell(gridCells[currentCell.index + 1])
-    // scrollingContainer.scrollLeft = scrollingContainer.scrollLeft - window.innerWidth
-  }
-}
-
-function showPreviousFrame (
-  currentCell/* : number */,
-  gridCells /* : Array<HTMLCollection> */
-) {
-  console.log('currentCellIndex', currentCell.index)
-  if (currentCell.index) {
-    --currentCell.index
-    console.log('currentCell.index is now ', currentCell.index)
-    showGridCell(gridCells[currentCell.index - 1])
-    hideGridCell(gridCells[currentCell.index + 2])
-    // scrollingContainer.scrollLeft = scrollingContainer.scrollLeft + window.innerWidth
+  ++currentCell.index
+  hideGridCell(gridCells[currentCell.index - 2])
+  showGridCell(gridCells[currentCell.index + 1])
+  if (currentCell.index > 1) {
+    scrollingContainer.scrollLeft = window.innerWidth
   }
 }

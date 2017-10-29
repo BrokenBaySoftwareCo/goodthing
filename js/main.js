@@ -5,7 +5,7 @@ const scrollStream$ = Rx.Observable.fromEvent(scrollingContainer, 'scroll') // e
 const gridCells = document.getElementsByClassName('grid-image-div')
 Array.prototype.forEach.call(gridCells, (gridCell, index) => {
   if (index > 1) {
-    gridCell.classList.add('hide')
+    // gridCell.classList.add('hidden')
   }
 })
 // Keep track of the current cell. It's an object so
@@ -197,7 +197,7 @@ function hideGridCell (
   gridCell /* : HTMLElemtnt */
 ) {
   if (gridCell) {
-    gridCell.classList.add('hide')
+    gridCell.classList.add('hidden')
   }
 }
 
@@ -205,7 +205,7 @@ function showGridCell (
   gridCell /* : HTMLElemtnt */
 ) {
   if (gridCell) {
-    gridCell.classList.remove('hide')
+    gridCell.classList.remove('hidden')
   }
 }
 

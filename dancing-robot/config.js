@@ -1,10 +1,8 @@
 export default {
-  'orientation': {
-    'default': 'landscape',
-    'max-frame-width': '400'
-  },
-  'grid-view': {
-    'cols': 3,
-    'rows': 6
+  'defaultOrientation': 'landscape',
+  'maxFrameWidth': '400',
+  'minFrameWidth': '200',
+  'gridView': {
+    'cols': 3
   }
 }

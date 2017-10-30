@@ -3,8 +3,21 @@ import config from '../dancing-robot/config.js'
 // Force a page reload on layout change
 Rx.Observable.fromEvent(window, 'resize') // eslint-disable-line no-undef
   .throttle(val => Rx.Observable.interval(1000)) // eslint-disable-line no-undef
-  .subscribe(val => {
-    document.location.reload()
+  .pairwise()
+  .subscribe(vals => {
+    console.log(vals[0], vals[1])
+    if (
+      (
+        vals[0] >= config.breakPointWidth &&
+        vals[1] <= config.breakPointWidth
+      ) ||
+      (
+        vals[1] >= config.breakPointWidth &&
+        vals[0] <= config.breakPointWidth
+      )
+    ) {
+      document.location.reload()
+    }
   })
 
 // The initial stream of scroll events

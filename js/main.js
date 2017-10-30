@@ -4,11 +4,11 @@ import config from '../dancing-robot/config.js'
 Rx.Observable.fromEvent(window, 'resize') // eslint-disable-line no-undef
   .throttle(val => Rx.Observable.interval(10)) // eslint-disable-line no-undef
   .map(event => {
-
     return event.target.document.body.offsetWidth
   })
   .pairwise()
-  .subscribe(vals => {
+  .filter(vals => vals[0])
+  .filter(vals => {
     console.log(vals[0], vals[1])
     console.log(config.breakPointWidth)
     if (
@@ -21,8 +21,12 @@ Rx.Observable.fromEvent(window, 'resize') // eslint-disable-line no-undef
         vals[0] <= config.breakPointWidth
       )
     ) {
-      document.location.reload()
+      return true
     }
+    return false
+  })
+  .subscribe(vals => {
+    document.location.reload()
   })
 
 // The initial stream of scroll events

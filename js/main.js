@@ -1,12 +1,18 @@
 import config from '../dancing-robot/config.js'
 
+// Force a page reload on layout change
+Rx.Observable.fromEvent(window, 'resize') // eslint-disable-line no-undef
+  .throttle(val => Rx.Observable.interval(1000)) // eslint-disable-line no-undef
+  .subscribe(val => {
+    document.location.reload()
+  })
+
 // The initial stream of scroll events
 const scrollingContainer = document.getElementById('scrolling-container')
 const scrollStream$ = Rx.Observable.fromEvent(scrollingContainer, 'scroll') // eslint-disable-line no-undef
 const gridCells = document.getElementsByClassName('grid-image-div')
 // Hide the gridCells after the first two
-const gridViewWidth = config.minFrameWidth * config.gridView.cols + 10 * (config.gridView.cols - 1)
-if (document.body.offsetWidth < gridViewWidth) {
+if (document.body.offsetWidth < config.breakPointWidth) {
   Array.prototype.forEach.call(gridCells, (gridCell, index) => {
     if (index > 1) {
       gridCell.classList.add('hidden')

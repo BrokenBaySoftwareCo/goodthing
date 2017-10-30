@@ -1,7 +1,8 @@
 export default {
   'defaultOrientation': 'landscape',
-  'maxFrameWidth': '400',
-  'minFrameWidth': '200',
+  'breakPointWidth': 768,
+  'maxFrameWidth': 400,
+  'minFrameWidth': 200,
   'gridView': {
     'cols': 3
   }

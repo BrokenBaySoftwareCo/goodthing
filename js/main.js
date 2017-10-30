@@ -2,10 +2,15 @@ import config from '../dancing-robot/config.js'
 
 // Force a page reload on layout change
 Rx.Observable.fromEvent(window, 'resize') // eslint-disable-line no-undef
-  .throttle(val => Rx.Observable.interval(1000)) // eslint-disable-line no-undef
+  .throttle(val => Rx.Observable.interval(10)) // eslint-disable-line no-undef
+  .map(event => {
+
+    return event.target.document.body.offsetWidth
+  })
   .pairwise()
   .subscribe(vals => {
     console.log(vals[0], vals[1])
+    console.log(config.breakPointWidth)
     if (
       (
         vals[0] >= config.breakPointWidth &&
@@ -116,7 +121,7 @@ userScrolledBackward$.subscribe((leftPositions) => {
     () => {
       showPreviousFrame(currentCell, gridCells)
     },
-    1000
+    250
   )
 })
 

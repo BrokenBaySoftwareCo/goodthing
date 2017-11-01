@@ -1,3 +1,6 @@
+// @flow
+'use strict'
+
 import config from '../dancing-robot/config.js'
 
 // Force a page reload on layout change
@@ -125,7 +128,7 @@ userScrolledBackward$.subscribe((leftPositions) => {
     () => {
       showPreviousFrame(currentCell, gridCells)
     },
-    250
+    1000
   )
 })
 
@@ -265,3 +268,15 @@ function showPreviousFrame (
     scrollingContainer.scrollLeft = document.body.offsetWidth
   }
 }
+
+const snapConfig = {
+  scrollSnapDestination: '100vw 0', // *REQUIRED* scroll-snap-destination css property, as defined here: https://developer.mozilla.org/en-US/docs/Web/CSS/scroll-snap-destination
+  scrollTimeout: 100, // *OPTIONAL* (default = 100) time in ms after which scrolling is considered finished
+  scrollTime: 300 // *OPTIONAL* (default = 300) time in ms for the smooth snap
+}
+
+function callback () {
+  console.log('called when snap animation ends')
+}
+
+const element = document.getElementById('scrolling-container')

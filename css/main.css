@@ -121,6 +121,8 @@ img {
     width: 100vw;
     height: 100vh;
     overflow: scroll;
+    scroll-snap-type: mandatory;
+    scroll-snap-points-x: repeat(100%);
   }
 
   .grid-container {
@@ -153,6 +155,7 @@ img {
     height: calc(var(--min-frame-height) * var(--grid-view-rows) + ((var(--grid-view-rows) -1) * 10px));
     margin: auto;
     overflow: scroll;
+    padding: 40px;
   }
 
   .grid-container {

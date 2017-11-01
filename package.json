@@ -3,7 +3,8 @@
   "description": "A good thing for web comics.",
   "version": "1.0.0",
   "dependencies": {
-    "rxjs": "^5.5.0"
+    "rxjs": "^5.5.0",
+    "scroll-snap": "^1.0.5"
   },
   "devDependencies": {
     "blue-tape": "^1.0.0",
@@ -45,6 +46,7 @@
     "pretest": "npm run eslint && npm run remark && npm run fixpack",
     "remark": "remark . --use remark-preset-lint-recommended",
     "start": "browser-sync start --server --files '*.html' 'css/*.css' 'js/*.js'",
+    "build": "cp node_modules/scroll-snap/dist/scroll-snap.js js/",
     "test": "echo 'no tests yet :|'"
   }
 }

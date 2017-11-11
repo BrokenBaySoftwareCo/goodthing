@@ -150,6 +150,62 @@ img {
 @media only screen and (min-width: 768px) {
   /* Style adjustments for viewports that meet the condition */
 
+  /* HOME */
+
+  #homepage-container {
+    width: 100vw;
+    height: 100vh;
+    padding: 40px;
+  }
+
+  .homepage-grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 10px;
+
+    /* grid-template-rows: repeat(6, 1fr); */
+    /* grid-template-columns: repeat(var(--grid-view-cols), 1fr); */
+    /* grid-template-rows: repeat(var(--grid-view-rows), 1fr); */
+    /* grid-auto-flow: rows; */
+  }
+
+  .homepage-grid-container div {
+    display: block;
+    border: 1px solid black;
+    height: 25vw;
+    max-height: 25vh;
+  }
+
+  .homepage-grid-container a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .homepage-grid-container a:link,
+  .homepage-grid-container a:active,
+  .homepage-grid-container a:visited {
+    text-decoration: none;
+    color: black;
+
+  }
+
+  .homepage-grid-container h2 {
+    margin: auto;
+    font-family: Courier New, Courier, monospace;
+    font-size: 1.2em;
+    width: 80%;
+    text-align: center;
+  }
+  .hompage-grid-container img {
+    /* width: 100%;
+    max-width: 400px;
+    margin: auto; */
+  }
+
+
   #scrolling-container {
     width: calc(var(--min-frame-width) * var(--grid-view-cols) + ((var(--grid-view-cols) -1) * 10px));
     height: calc(var(--min-frame-height) * var(--grid-view-rows) + ((var(--grid-view-rows) -1) * 10px));
